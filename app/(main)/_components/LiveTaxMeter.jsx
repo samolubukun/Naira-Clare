@@ -26,7 +26,7 @@ function LiveTaxMeter({ isCollapsed }) {
     };
 
     return (
-        <div className="flex flex-col h-full bg-white">
+        <div className="flex flex-col h-full bg-white overflow-x-hidden">
             {/* Logo Section */}
             <Link href="/" className={`flex items-center gap-4 group px-6 pt-10 pb-10 transition-all ${isCollapsed ? 'px-5' : ''}`}>
                 <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform flex-shrink-0 border border-gray-100">

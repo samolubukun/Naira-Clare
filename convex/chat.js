@@ -53,6 +53,13 @@ export const getChatMessages = query({
     }
 });
 
+export const updateChatSessionTopic = mutation({
+    args: { id: v.id('chatSessions'), topic: v.string() },
+    handler: async (ctx, args) => {
+        await ctx.db.patch(args.id, { topic: args.topic });
+    }
+});
+
 export const deleteChatSession = mutation({
     args: { id: v.id('chatSessions') },
     handler: async (ctx, args) => {

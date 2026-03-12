@@ -14,7 +14,7 @@ function DashboardLayout({ children }) {
     return (
         <div className='min-h-screen bg-slate-50 flex'>
             {/* Desktop Sidebar */}
-            <aside className={`hidden lg:flex flex-shrink-0 border-r border-gray-100 bg-white flex-col sticky top-0 h-screen overflow-y-auto no-scrollbar transition-all duration-300 relative ${isCollapsed ? 'w-[80px]' : 'w-[280px]'}`}>
+            <aside className={`hidden lg:flex flex-shrink-0 border-r border-gray-100 bg-white flex-col sticky top-0 h-screen overflow-y-auto overflow-x-hidden no-scrollbar transition-all duration-300 relative ${isCollapsed ? 'w-[80px]' : 'w-[280px]'}`}>
                 <LiveTaxMeter isCollapsed={isCollapsed} />
                 
                 {/* Collapse Toggle Button (Desktop) */}
@@ -32,7 +32,7 @@ function DashboardLayout({ children }) {
             {sidebarOpen && (
                 <div className="fixed inset-0 z-50 lg:hidden">
                     <div className="absolute inset-0 bg-[#0f172a]/40 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
-                    <aside className="absolute left-0 top-0 bottom-0 w-[280px] bg-white shadow-2xl flex flex-col overflow-y-auto no-scrollbar z-60 animate-in slide-in-from-left duration-300">
+                    <aside className="absolute left-0 top-0 bottom-0 w-[280px] bg-white shadow-2xl flex flex-col overflow-y-auto overflow-x-hidden no-scrollbar z-60 animate-in slide-in-from-left duration-300">
                         <div className="absolute top-4 right-4 z-10">
                             <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(false)} className="rounded-xl hover:bg-gray-100">
                                 <X className="w-5 h-5 text-gray-400" />

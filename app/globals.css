@@ -192,3 +192,38 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* --- Global UI Refinements --- */
+
+/* Reduced Placeholder Boldness */
+::placeholder {
+  font-weight: 400 !important;
+  opacity: 0.5;
+}
+
+/* Sleek Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.1); /* Very faint emerald white */
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.4); /* Shows more on hover */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(16, 185, 129, 0.2) transparent;
+}

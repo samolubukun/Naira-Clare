@@ -174,7 +174,7 @@ export default function TaxCalculator({ isDashboard = false }) {
                         onChange={handleInputChange} 
                         placeholder={isAuto ? "Auto-fill..." : "0"} 
                         disabled={isAuto}
-                        className={`bg-white border-gray-200 h-14 pl-10 text-lg font-bold placeholder:font-medium placeholder:text-[10px] sm:placeholder:text-xs placeholder:text-gray-400/50 transition-all ${isAuto ? "bg-emerald-50/20 text-[#008751] border-emerald-100 opacity-90 shadow-inner" : "focus:ring-[#008751] shadow-sm"}`} 
+                        className={`bg-white border-gray-200 h-14 pl-10 text-lg font-bold placeholder:text-gray-400/50 transition-all ${isAuto ? "bg-emerald-50/20 text-[#008751] border-emerald-100 opacity-90 shadow-inner" : "focus:ring-[#008751] shadow-sm"}`} 
                         type="number" 
                     />
                 </div>
@@ -266,7 +266,7 @@ export default function TaxCalculator({ isDashboard = false }) {
                                             value={formData.basic} 
                                             onChange={handleInputChange} 
                                             placeholder={isMonthly ? "250,000" : "3,000,000"} 
-                                            className="bg-white border-gray-200 h-14 pl-10 text-xl font-black focus:ring-[#008751] placeholder:font-medium placeholder:text-[10px] sm:placeholder:text-xs placeholder:text-gray-400/50" 
+                                            className="bg-white border-gray-200 h-14 pl-10 text-xl font-black focus:ring-[#008751] placeholder:text-gray-400/50" 
                                             type="number" 
                                         />
                                     </div>
