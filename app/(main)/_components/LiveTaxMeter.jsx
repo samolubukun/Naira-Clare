@@ -1,7 +1,7 @@
 "use client"
 import React, { useContext } from 'react';
 import { UserContext } from '@/app/_context/UserContext';
-import { LayoutDashboard, Wallet, Receipt, FileText, MessageSquare, FolderCheck, Zap, LogOut } from 'lucide-react';
+import { LayoutDashboard, Wallet, Receipt, FileText, MessageSquare, FolderCheck, Zap, LogOut, User } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -57,8 +57,21 @@ function LiveTaxMeter({ isCollapsed }) {
                 })}
             </nav>
 
-            {/* Footer / Logout */}
-            <div className={`px-3 py-6 border-t border-gray-100 transition-all`}>
+            {/* Footer / Settings / Logout */}
+            <div className={`px-3 py-6 border-t border-gray-100 transition-all space-y-2`}>
+                <Link 
+                    href="/dashboard/profile"
+                    className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all group ${pathname === '/dashboard/profile' ? 'bg-[#008751]/10 text-[#008751]' : 'text-gray-500 hover:bg-emerald-50 hover:text-[#008751]'}`}
+                >
+                    <User className={`w-5 h-5 flex-shrink-0 ${pathname === '/dashboard/profile' ? 'text-[#008751]' : 'text-gray-400 group-hover:text-[#008751]'}`} />
+                    {!isCollapsed && <span className="text-sm font-black tracking-tight">Profile & Settings</span>}
+                    {isCollapsed && (
+                        <div className="absolute left-16 bg-[#008751] text-white text-[10px] font-black py-1 px-3 rounded-md opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50">
+                            Profile & Settings
+                        </div>
+                    )}
+                </Link>
+
                 <button 
                     onClick={handleLogout}
                     className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all group text-rose-500 hover:bg-rose-50`}
