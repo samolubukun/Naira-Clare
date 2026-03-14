@@ -6,7 +6,8 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:all": "node scripts/test_everything.js"
   },
   "dependencies": {
     "@deepgram/sdk": "^4.11.2",

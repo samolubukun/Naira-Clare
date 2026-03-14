@@ -100,7 +100,7 @@ function StatCards() {
     ];
 
     return (
-        <div className="grid grid-cols-3 lg:grid-cols-6 gap-2 md:gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-3">
             {cards.map((card, index) => (
                 <motion.div
                     key={card.label}

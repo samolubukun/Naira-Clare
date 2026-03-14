@@ -136,7 +136,7 @@ function ExpenseScanner({ userId, onComplete }) {
                             </div>
                             <div>
                                 <label className="text-[10px] font-black uppercase text-gray-400">Amount</label>
-                                <p className="font-black text-emerald-600">₦{parseFloat(result.amount).toLocaleString()}</p>
+                                <p className="font-black text-emerald-600">₦{(parseFloat(result.amount) || 0).toLocaleString()}</p>
                             </div>
                             <div>
                                 <label className="text-[10px] font-black uppercase text-gray-400">Category</label>

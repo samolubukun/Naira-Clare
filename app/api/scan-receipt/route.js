@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { NextResponse } from "next/server";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -40,13 +41,9 @@ export async function POST(req) {
         const text = response.text();
         const jsonMatch = text.match(/\{[\s\S]*\}/);
         
-        if (!jsonMatch) {
-            return new Response(JSON.stringify({ error: "Failed to parse receipt" }), { status: 500 });
-        }
-
-        return new Response(jsonMatch[0], { status: 200 });
+        return NextResponse.json(JSON.parse(jsonMatch[0]));
     } catch (error) {
         console.error("AI Scan Error:", error);
-        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+        return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }

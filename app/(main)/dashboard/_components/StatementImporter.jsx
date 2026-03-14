@@ -152,7 +152,7 @@ function StatementImporter({ userId, onComplete }) {
                                     </div>
                                     <div className="text-right ml-4">
                                         <p className={tx.type === 'income' ? 'text-emerald-600' : 'text-[#0f172a]'}>
-                                            {tx.type === 'income' ? '+' : '-'}₦{tx.amount.toLocaleString()}
+                                            {tx.type === 'income' ? '+' : '-'}₦{(tx.amount || 0).toLocaleString()}
                                         </p>
                                     </div>
                                 </div>

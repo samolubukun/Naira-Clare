@@ -14,7 +14,7 @@ import { api } from '@/convex/_generated/api';
 import { UserContext } from "@/app/_context/UserContext";
 import OnboardingModal from "@/components/OnboardingModal";
 import { Progress } from '@/components/ui/progress';
-import { Shield, LayoutDashboard } from 'lucide-react';
+import { Shield, LayoutDashboard, TrendingUp, PieChart, Wallet } from 'lucide-react';
 import Image from "next/image";
 
 function Dashboard() {
@@ -63,42 +63,62 @@ function Dashboard() {
             </div>
 
             {/* 1. Live Tax Estimate — inline card */}
-            <div className={`rounded-[2.5rem] p-6 transition-all duration-700 ${pulse ? 'bg-emerald-50 ring-2 ring-emerald-300 shadow-lg' : 'bg-white border border-gray-100 shadow-sm'}`}>
-                <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-10">
-                    <div className="flex items-center gap-3 flex-shrink-0">
-                        <div className={`w-2 h-2 md:w-3 md:h-3 rounded-full ${pulse ? 'bg-emerald-500 animate-ping' : 'bg-[#008751]'}`} />
-                        <span className="text-[9px] md:text-[10px] font-black text-gray-400 uppercase tracking-widest">Live Tax Estimate</span>
-                    </div>
-                    <div className="flex-shrink-0">
-                        <span className={`text-2xl md:text-4xl font-black tracking-tight transition-colors duration-500 ${pulse ? 'text-emerald-600' : 'text-[#0f172a]'}`}>
-                            ₦{(taxSummary?.annualTax || 0).toLocaleString()}
-                        </span>
-                        <span className="text-[9px] md:text-[10px] font-black text-gray-400 ml-2 md:ml-3 uppercase">Annual PAYE</span>
-                    </div>
-                    <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
-                        <div>
-                            <div className="flex justify-between mb-1 md:mb-1.5">
-                                <span className="text-[8px] md:text-[9px] font-black text-gray-400 uppercase tracking-widest">Tax Year</span>
-                                <span className="text-[8px] md:text-[9px] font-black text-[#008751]">{Math.round(yearProgress)}%</span>
-                            </div>
-                            <Progress value={yearProgress} className="h-1.5 md:h-2 rounded-full bg-gray-100" indicatorClassName="bg-gradient-to-r from-[#008751] to-[#2D5A27]" />
+            <div className={`rounded-[2rem] p-5 transition-all duration-700 ${pulse ? 'bg-emerald-50 ring-2 ring-emerald-300 shadow-lg' : 'bg-white border border-gray-100 shadow-sm'} min-w-0`}>
+                <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8 min-w-0">
+                    <div className="flex flex-col gap-1 flex-shrink-0">
+                        <div className="flex items-center gap-2">
+                            <div className={`w-1.5 h-1.5 rounded-full ${pulse ? 'bg-emerald-500 animate-ping' : 'bg-[#008751]'}`} />
+                            <span className="text-[8px] font-black text-[#008751] uppercase tracking-[0.2em] bg-emerald-100/30 px-2 py-0.5 rounded-full">Live Calculation</span>
                         </div>
-                        <div>
-                            <div className="flex justify-between mb-1 md:mb-1.5">
-                                <span className="text-[8px] md:text-[9px] font-black text-gray-400 uppercase tracking-widest">Income</span>
-                                <span className="text-[8px] md:text-[9px] font-black text-blue-600">₦{((taxSummary?.grossAnnualIncome || 0) / 1000).toFixed(0)}k</span>
+                    </div>
+
+                    <div className="flex flex-col flex-shrink-0 border-b lg:border-b-0 lg:border-r border-gray-100 pb-4 lg:pb-0 lg:pr-8 min-w-0">
+                        <div className="flex items-baseline gap-2">
+                            <span className={`text-2xl md:text-3xl font-black tracking-tighter transition-colors duration-500 ${pulse ? 'text-emerald-600' : 'text-[#0f172a]'}`}>
+                                ₦{(taxSummary?.annualTax || 0).toLocaleString()}
+                            </span>
+                            <div className="flex flex-col">
+                                <span className="text-[8px] font-black text-[#008751] uppercase tracking-widest">Annual</span>
+                                <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest leading-none">Tax</span>
                             </div>
-                            <Progress value={Math.min(100, yearProgress > 0 ? 80 : 0)} className="h-1.5 md:h-2 rounded-full bg-blue-50" indicatorClassName="bg-gradient-to-r from-blue-400 to-blue-600" />
                         </div>
-                        <div className="col-span-2 md:col-span-1 flex items-center justify-between md:justify-end gap-3 md:gap-6 border-t md:border-t-0 md:border-l border-gray-100 pt-3 md:pt-0 md:pl-6 mt-1 md:mt-0">
-                            <div className="text-center">
-                                <p className="text-[8px] md:text-[9px] font-black text-gray-400 uppercase tracking-widest">Rate</p>
-                                <p className="text-sm md:text-lg font-black text-[#0f172a]">{(taxSummary?.effectiveRate || 0).toFixed(1)}%</p>
+                    </div>
+
+                    <div className="flex-1 grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-5 min-w-0">
+                        <div className="bg-gray-50/50 p-3 rounded-2xl border border-gray-50 flex flex-col justify-center min-w-0">
+                            <div className="flex justify-between items-center mb-1.5 gap-2">
+                                <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest whitespace-nowrap flex-shrink-0">Year Progress</span>
+                                <span className="text-[8px] font-black text-[#008751] bg-emerald-100/50 px-1 py-0.5 rounded-md flex-shrink-0">{Math.round(yearProgress)}%</span>
                             </div>
-                            <div className="text-center">
-                                <p className="text-[8px] md:text-[9px] font-black text-gray-400 uppercase tracking-widest">Monthly</p>
-                                <p className="text-sm md:text-lg font-black text-[#008751]">₦{(taxSummary?.monthlyTax || 0).toLocaleString()}</p>
+                            <Progress value={yearProgress} className="h-1 rounded-full bg-gray-200" indicatorClassName="bg-gradient-to-r from-[#008751] to-[#2D5A27]" />
+                        </div>
+
+                        <div className="bg-blue-50/30 p-3 rounded-2xl border border-blue-50/50 flex flex-col justify-center min-w-0">
+                            <div className="flex justify-between items-center mb-0.5 gap-2">
+                                <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest whitespace-nowrap flex-shrink-0">Total Income</span>
+                                <TrendingUp className="w-2.5 h-2.5 text-blue-600 flex-shrink-0" />
                             </div>
+                            <p className="text-sm font-black text-[#0f172a] whitespace-nowrap">
+                                ₦{taxSummary?.grossAnnualIncome >= 1000000 
+                                    ? (taxSummary.grossAnnualIncome / 1000000).toFixed(2) + 'M'
+                                    : (taxSummary?.grossAnnualIncome / 1000).toFixed(0) + 'k'}
+                            </p>
+                        </div>
+
+                        <div className="bg-emerald-50/30 p-3 rounded-2xl border border-emerald-50/50 flex flex-col justify-center min-w-0">
+                            <div className="flex justify-between items-center mb-0.5 gap-2">
+                                <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest whitespace-nowrap flex-shrink-0">Effective Rate</span>
+                                <PieChart className="w-2.5 h-2.5 text-emerald-600 flex-shrink-0" />
+                            </div>
+                            <p className="text-sm font-black text-[#008751] whitespace-nowrap">{(taxSummary?.effectiveRate || 0).toFixed(1)}%</p>
+                        </div>
+
+                        <div className="bg-slate-50 p-3 rounded-2xl border border-gray-100 flex flex-col justify-center min-w-0">
+                            <div className="flex justify-between items-center mb-0.5 gap-2">
+                                <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest whitespace-nowrap flex-shrink-0">Monthly Tax</span>
+                                <Wallet className="w-2.5 h-2.5 text-gray-400 flex-shrink-0" />
+                            </div>
+                            <p className="text-sm font-black text-[#0f172a] whitespace-nowrap">₦{(taxSummary?.monthlyTax || 0).toLocaleString()}</p>
                         </div>
                     </div>
                 </div>
