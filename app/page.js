@@ -74,7 +74,7 @@ export default function LandingPage() {
                             </motion.h1>
 
                             <motion.p variants={itemVariants} className="text-xl md:text-2xl mb-16 text-gray-500 max-w-3xl leading-relaxed font-semibold">
-                                Calculate your tax, track your income, and stay compliant. Built for every Nigerian—from salary earners to growing businesses.
+                                Calculate your tax, track your income, and stay compliant. Built for every Nigerian - from salary earners to growing businesses.
                             </motion.p>
                             
                             <motion.div variants={itemVariants} className="w-full max-w-5xl mx-auto">
@@ -136,7 +136,7 @@ export default function LandingPage() {
                                     </div>
                                     <h3 className="text-2xl md:text-3xl font-black text-[#0f172a] mb-4 md:mb-6 leading-tight">Mastering tax is the <br className="hidden sm:block" /><span className="text-[#008751]">ultimate leverage.</span></h3>
                                     <div className="h-1 w-12 bg-gray-100 rounded-full mb-4 md:mb-6 shrink-0"></div>
-                                    <p className="text-gray-400 font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.3em] text-[10px]">Nigerian Fintech Reimagined.</p>
+                                    <p className="text-gray-400 font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.3em] text-[10px]">Precision in Every Filing.</p>
                                 </div>
                                 <div className="absolute -top-10 -left-10 w-24 h-24 bg-[#008751]/5 blur-2xl rounded-full"></div>
                                 <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-[#2D5A27]/5 blur-2xl rounded-full"></div>
