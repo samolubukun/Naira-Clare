@@ -130,13 +130,13 @@ export default function LandingPage() {
                                 viewport={{ once: true }}
                                 className="order-2 lg:order-1 relative"
                             >
-                                <div className="relative rounded-[3.5rem] overflow-hidden shadow-2xl shadow-emerald-900/10 bg-white border border-gray-100 p-8 md:p-12 aspect-square flex flex-col justify-center items-center text-center">
-                                    <div className="w-24 h-24 md:w-32 md:h-32 bg-[#008751]/10 rounded-3xl flex items-center justify-center mb-6 md:mb-8">
-                                        <Image src="/nairaclarelogo.svg" alt="NairaClare Icon" width={64} height={64} className="rounded-2xl" />
+                                <div className="relative rounded-[3.5rem] overflow-hidden shadow-2xl shadow-emerald-900/10 bg-white border border-gray-100 p-8 md:p-12 aspect-[4/5] md:aspect-square flex flex-col justify-center items-center text-center">
+                                    <div className="w-24 h-24 md:w-32 md:h-32 bg-[#008751]/10 rounded-3xl flex items-center justify-center mb-6 md:mb-8 shrink-0">
+                                        <Image src="/nairaclarelogo.svg" alt="NairaClare Icon" width={64} height={64} className="rounded-2xl shrink-0" />
                                     </div>
-                                    <h3 className="text-2xl md:text-3xl font-black text-[#0f172a] mb-4 md:mb-6 leading-tight">Mastering tax is the <br /><span className="text-[#008751]">ultimate leverage.</span></h3>
-                                    <div className="h-1 w-12 bg-gray-100 rounded-full mb-4 md:mb-6"></div>
-                                    <p className="text-gray-400 font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-[10px]">Nigerian Fintech Reimagined.</p>
+                                    <h3 className="text-2xl md:text-3xl font-black text-[#0f172a] mb-4 md:mb-6 leading-tight">Mastering tax is the <br className="hidden sm:block" /><span className="text-[#008751]">ultimate leverage.</span></h3>
+                                    <div className="h-1 w-12 bg-gray-100 rounded-full mb-4 md:mb-6 shrink-0"></div>
+                                    <p className="text-gray-400 font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.3em] text-[10px]">Nigerian Fintech Reimagined.</p>
                                 </div>
                                 <div className="absolute -top-10 -left-10 w-24 h-24 bg-[#008751]/5 blur-2xl rounded-full"></div>
                                 <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-[#2D5A27]/5 blur-2xl rounded-full"></div>
@@ -233,11 +233,11 @@ export default function LandingPage() {
                                 </p>
                                 <Button 
                                     onClick={handleGetStarted}
-                                    className="w-full sm:w-auto px-8 md:px-12 py-6 md:py-8 text-lg md:text-xl font-black text-white rounded-2xl shadow-2xl shadow-emerald-900/40 hover:scale-105 transition-all flex flex-wrap items-center justify-center gap-2 whitespace-normal"
+                                    className="w-full sm:w-auto h-auto px-8 md:px-12 py-6 md:py-8 text-lg font-black text-white rounded-2xl shadow-2xl shadow-emerald-900/40 hover:scale-105 transition-all flex items-center justify-center gap-2 mx-auto"
                                     style={{ background: 'linear-gradient(135deg, #008751 0%, #2D5A27 100%)' }}
                                 >
                                     <span>Get Started Now</span>
-                                    <ArrowRight className="w-5 h-5 md:w-6 md:h-6 flex-shrink-0" />
+                                    <ArrowRight className="w-5 h-5 shrink-0" />
                                 </Button>
                             </div>
                             
