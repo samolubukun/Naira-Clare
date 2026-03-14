@@ -122,7 +122,7 @@ export default function LandingPage() {
                 {/* Problem Section */}
                 <section className="py-32 px-6 bg-[#FAFAF9]/50 border-y border-gray-100">
                     <div className="max-w-7xl mx-auto">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                             <motion.div
                                 initial={{ opacity: 0, x: -50 }}
                                 whileInView={{ opacity: 1, x: 0 }}
@@ -130,13 +130,13 @@ export default function LandingPage() {
                                 viewport={{ once: true }}
                                 className="order-2 lg:order-1 relative"
                             >
-                                <div className="relative rounded-[3.5rem] overflow-hidden shadow-2xl shadow-emerald-900/10 bg-white border border-gray-100 p-12 aspect-square flex flex-col justify-center items-center text-center">
-                                    <div className="w-32 h-32 bg-[#008751]/10 rounded-3xl flex items-center justify-center mb-8">
-                                        <Image src="/nairaclarelogo.svg" alt="NairaClare Icon" width={80} height={80} className="rounded-2xl" />
+                                <div className="relative rounded-[3.5rem] overflow-hidden shadow-2xl shadow-emerald-900/10 bg-white border border-gray-100 p-8 md:p-12 aspect-square flex flex-col justify-center items-center text-center">
+                                    <div className="w-24 h-24 md:w-32 md:h-32 bg-[#008751]/10 rounded-3xl flex items-center justify-center mb-6 md:mb-8">
+                                        <Image src="/nairaclarelogo.svg" alt="NairaClare Icon" width={64} height={64} className="rounded-2xl" />
                                     </div>
-                                    <h3 className="text-3xl font-black text-[#0f172a] mb-6 leading-tight">Mastering tax is the <br /><span className="text-[#008751]">ultimate leverage.</span></h3>
-                                    <div className="h-1 w-12 bg-gray-100 rounded-full mb-6"></div>
-                                    <p className="text-gray-400 font-black uppercase tracking-[0.3em] text-[10px]">Nigerian Fintech Reimagined.</p>
+                                    <h3 className="text-2xl md:text-3xl font-black text-[#0f172a] mb-4 md:mb-6 leading-tight">Mastering tax is the <br /><span className="text-[#008751]">ultimate leverage.</span></h3>
+                                    <div className="h-1 w-12 bg-gray-100 rounded-full mb-4 md:mb-6"></div>
+                                    <p className="text-gray-400 font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-[10px]">Nigerian Fintech Reimagined.</p>
                                 </div>
                                 <div className="absolute -top-10 -left-10 w-24 h-24 bg-[#008751]/5 blur-2xl rounded-full"></div>
                                 <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-[#2D5A27]/5 blur-2xl rounded-full"></div>
@@ -221,23 +221,23 @@ export default function LandingPage() {
                 </section>
                     
                 {/* CTA Section */}
-                <section className="py-32 px-6">
+                <section className="py-20 md:py-32 px-4 md:px-6">
                     <div className="max-w-7xl mx-auto">
-                        <div className="relative p-12 md:p-24 rounded-[4rem] bg-white border border-gray-100 shadow-2xl shadow-emerald-900/5 overflow-hidden">
+                        <div className="relative p-8 md:p-12 lg:p-24 rounded-[3rem] md:rounded-[4rem] bg-white border border-gray-100 shadow-2xl shadow-emerald-900/5 overflow-hidden">
                             <div className="relative z-10 text-center max-w-3xl mx-auto">
-                                <h2 className="text-4xl md:text-7xl font-black text-[#0f172a] mb-10 leading-tight tracking-tighter">
+                                <h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-[#0f172a] mb-6 md:mb-10 leading-tight tracking-tighter">
                                     Join the <br /><span className="text-[#008751]">circle of clarity.</span>
                                 </h2>
-                                <p className="text-xl text-gray-500 mb-16 font-semibold leading-relaxed">
+                                <p className="text-lg md:text-xl text-gray-500 mb-10 md:mb-16 font-semibold leading-relaxed">
                                     Join the thousands of Nigerians mastering their finances and taxes with NairaClare.
                                 </p>
                                 <Button 
                                     onClick={handleGetStarted}
-                                    className="px-12 py-8 text-xl font-black text-white rounded-2xl shadow-2xl shadow-emerald-900/40 hover:scale-105 transition-all"
+                                    className="w-full sm:w-auto px-8 md:px-12 py-6 md:py-8 text-lg md:text-xl font-black text-white rounded-2xl shadow-2xl shadow-emerald-900/40 hover:scale-105 transition-all flex flex-wrap items-center justify-center gap-2 whitespace-normal"
                                     style={{ background: 'linear-gradient(135deg, #008751 0%, #2D5A27 100%)' }}
                                 >
-                                    Get Started Now
-                                    <ArrowRight className="ml-3 w-6 h-6" />
+                                    <span>Get Started Now</span>
+                                    <ArrowRight className="w-5 h-5 md:w-6 md:h-6 flex-shrink-0" />
                                 </Button>
                             </div>
                             
