@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
+import { formatMoney, parseMoney } from '@/lib/utils'
 
 const NIGERIAN_STATES = [
     "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue", "Borno", 
@@ -64,7 +65,13 @@ function ProfilePage() {
                 id: userData._id,
                 onboardingType: formData.onboardingType,
                 stateOfResidence: formData.stateOfResidence,
-                salaryProfile: formData.salaryProfile
+                salaryProfile: {
+                    ...formData.salaryProfile,
+                    basic: Number(parseMoney(formData.salaryProfile.basic || 0)),
+                    housing: Number(parseMoney(formData.salaryProfile.housing || 0)),
+                    transport: Number(parseMoney(formData.salaryProfile.transport || 0)),
+                    otherAllowances: Number(parseMoney(formData.salaryProfile.otherAllowances || 0))
+                }
             })
             toast.success("Profile updated successfully")
         } catch (err) {
@@ -87,7 +94,7 @@ function ProfilePage() {
     return (
         <div className="space-y-8 animate-in fade-in duration-700 pb-20">
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-6 sm:p-8 rounded-[2.5rem] border border-gray-100 shadow-sm">
                 <div className="flex items-center gap-6">
                     <div className="w-20 h-20 rounded-full bg-emerald-50 border-2 border-emerald-100 flex items-center justify-center text-[#2D5A27]">
                         <UserCircle className="w-12 h-12" />
@@ -111,7 +118,7 @@ function ProfilePage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Basic Settings */}
                 <div className="lg:col-span-1 space-y-8">
-                    <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm space-y-6">
+                    <div className="bg-white p-6 sm:p-8 rounded-[2.5rem] border border-gray-100 shadow-sm space-y-6">
                         <h3 className="text-lg font-black text-[#0f172a] flex items-center gap-2">
                            <ShieldCheck className="w-5 h-5 text-[#2D5A27]" /> Core Identity
                         </h3>
@@ -169,17 +176,17 @@ function ProfilePage() {
 
                 {/* Salary Profile & Deductions */}
                 <div className="lg:col-span-2 space-y-8">
-                    <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm space-y-8">
-                        <div className="flex items-center justify-between">
+                    <div className="bg-white p-5 sm:p-8 rounded-[2.5rem] border border-gray-100 shadow-sm space-y-8">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                             <h3 className="text-lg font-black text-[#0f172a] flex items-center gap-2">
                                <Calculator className="w-5 h-5 text-[#2D5A27]" /> Tax Deductions Profile
                             </h3>
                             <Button 
                                 onClick={handleSave} 
                                 disabled={isSaving}
-                                className="rounded-2xl bg-[#008751] hover:bg-[#007043] text-white font-black h-12 px-8 shadow-lg shadow-[#008751]/20"
+                                className="rounded-2xl bg-[#008751] hover:bg-[#007043] text-white font-black h-10 sm:h-12 px-6 sm:px-8 text-xs sm:text-sm shadow-lg shadow-[#008751]/20 w-full sm:w-auto"
                             >
-                                {isSaving ? <span className="animate-spin mr-2">◌</span> : <Save className="w-4 h-4 mr-2" />}
+                                {isSaving ? <span className="animate-spin mr-2">◌</span> : <Save className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2" />}
                                 Save Changes
                             </Button>
                         </div>
@@ -191,10 +198,11 @@ function ProfilePage() {
                                     <div className="relative">
                                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm">₦</span>
                                         <Input 
-                                            type="number" 
+                                            type="text" 
+                                            inputMode="decimal"
                                             placeholder="Basic Salary" 
-                                            value={formData.salaryProfile.basic || ''}
-                                            onChange={(e) => updateSalaryField('basic', parseFloat(e.target.value) || 0)}
+                                            value={formatMoney(formData.salaryProfile.basic)}
+                                            onChange={(e) => updateSalaryField('basic', formatMoney(e.target.value))}
                                             className="h-14 pl-10 rounded-2xl bg-gray-50 border-none font-bold placeholder:text-gray-300"
                                         />
                                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 uppercase">Basic</span>
@@ -202,10 +210,11 @@ function ProfilePage() {
                                     <div className="relative">
                                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm">₦</span>
                                         <Input 
-                                            type="number" 
+                                            type="text" 
+                                            inputMode="decimal"
                                             placeholder="Housing" 
-                                            value={formData.salaryProfile.housing || ''}
-                                            onChange={(e) => updateSalaryField('housing', parseFloat(e.target.value) || 0)}
+                                            value={formatMoney(formData.salaryProfile.housing)}
+                                            onChange={(e) => updateSalaryField('housing', formatMoney(e.target.value))}
                                             className="h-14 pl-10 rounded-2xl bg-gray-50 border-none font-bold placeholder:text-gray-300"
                                         />
                                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 uppercase">Housing</span>
@@ -213,10 +222,11 @@ function ProfilePage() {
                                     <div className="relative">
                                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm">₦</span>
                                         <Input 
-                                            type="number" 
+                                            type="text" 
+                                            inputMode="decimal"
                                             placeholder="Transport" 
-                                            value={formData.salaryProfile.transport || ''}
-                                            onChange={(e) => updateSalaryField('transport', parseFloat(e.target.value) || 0)}
+                                            value={formatMoney(formData.salaryProfile.transport)}
+                                            onChange={(e) => updateSalaryField('transport', formatMoney(e.target.value))}
                                             className="h-14 pl-10 rounded-2xl bg-gray-50 border-none font-bold placeholder:text-gray-300"
                                         />
                                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 uppercase">Transport</span>
@@ -224,10 +234,11 @@ function ProfilePage() {
                                     <div className="relative">
                                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm">₦</span>
                                         <Input 
-                                            type="number" 
+                                            type="text" 
+                                            inputMode="decimal"
                                             placeholder="Other Allowances" 
-                                            value={formData.salaryProfile.otherAllowances || ''}
-                                            onChange={(e) => updateSalaryField('otherAllowances', parseFloat(e.target.value) || 0)}
+                                            value={formatMoney(formData.salaryProfile.otherAllowances)}
+                                            onChange={(e) => updateSalaryField('otherAllowances', formatMoney(e.target.value))}
                                             className="h-14 pl-10 rounded-2xl bg-gray-50 border-none font-bold placeholder:text-gray-300"
                                         />
                                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 uppercase">Other</span>
