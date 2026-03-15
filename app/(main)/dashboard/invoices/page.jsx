@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Plus, Receipt, Send, Check, Clock, AlertTriangle, FileText, Eye } from 'lucide-react';
 import { toast } from 'sonner';
 import moment from 'moment';
+import { formatMoney, parseMoney } from '@/lib/utils';
 
 function InvoicesPage() {
     const { userData } = useContext(UserContext);
@@ -29,7 +30,7 @@ function InvoicesPage() {
     });
 
     const calculateTotals = () => {
-        const subtotal = form.items.reduce((s, i) => s + (i.quantity * i.unitPrice), 0);
+        const subtotal = form.items.reduce((s, i) => s + (i.quantity * parseFloat(parseMoney(i.unitPrice) || 0)), 0);
         const vat = subtotal * (form.vatRate / 100);
         const wht = subtotal * (form.whtRate / 100);
         return { subtotal, vat, wht, total: subtotal + vat };
@@ -45,7 +46,7 @@ function InvoicesPage() {
                 invoiceNumber: form.invoiceNumber, amount: subtotal,
                 vatAmount: vat, whtAmount: wht, status: 'sent',
                 date: form.date, dueDate: form.dueDate || form.date,
-                items: form.items.map(i => ({ description: i.description, quantity: Number(i.quantity), unitPrice: Number(i.unitPrice) })),
+                items: form.items.map(i => ({ description: i.description, quantity: Number(i.quantity), unitPrice: parseFloat(parseMoney(i.unitPrice)) })),
             });
             toast.success("Invoice created!");
             setOpen(false);
@@ -124,7 +125,7 @@ function InvoicesPage() {
                                         </div>
                                         <Input type="number" placeholder="Qty" value={item.quantity} onChange={e => { const items = [...form.items]; items[idx].quantity = e.target.value; setForm({...form, items}); }} className="rounded-xl text-sm" />
                                         <div className="col-span-2">
-                                            <Input type="number" placeholder="Price" value={item.unitPrice} onChange={e => { const items = [...form.items]; items[idx].unitPrice = e.target.value; setForm({...form, items}); }} className="rounded-xl text-sm" />
+                                            <Input type="text" inputMode="decimal" placeholder="Price" value={formatMoney(item.unitPrice)} onChange={e => { const items = [...form.items]; items[idx].unitPrice = formatMoney(e.target.value); setForm({...form, items}); }} className="rounded-xl text-sm" />
                                         </div>
                                     </div>
                                 ))}

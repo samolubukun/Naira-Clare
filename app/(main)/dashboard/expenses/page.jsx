@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Plus, Calculator, ArrowDownRight, Filter, Search, Trash2, Pencil } from 'lucide-react';
 import { toast } from 'sonner';
 import moment from 'moment';
+import { formatMoney, parseMoney } from '@/lib/utils';
 
 const CATEGORIES = ['Rent', 'NHIS', 'Pension', 'Life Insurance', 'Loan Interest', 'Business', 'Transport', 'Office Supplies', 'Professional Fees', 'Other'];
 
@@ -38,7 +39,7 @@ function ExpensesPage() {
         try {
             await createExpense({
                 userId: userData._id, description: form.description, category: form.category,
-                amount: parseFloat(form.amount), date: form.date, isDeductible: form.isDeductible,
+                amount: parseFloat(parseMoney(form.amount)), date: form.date, isDeductible: form.isDeductible,
             });
             toast.success("Expense logged!");
             setForm({ description: '', category: 'Business', amount: '', date: new Date().toISOString().split('T')[0], isDeductible: true });
@@ -95,7 +96,7 @@ function ExpensesPage() {
                                 </div>
                                 <div className="space-y-2">
                                     <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Amount (₦)</Label>
-                                    <Input type="number" value={form.amount} onChange={e => setForm({...form, amount: e.target.value})} placeholder="0" className="rounded-xl" />
+                                    <Input type="text" inputMode="decimal" value={formatMoney(form.amount)} onChange={e => setForm({...form, amount: formatMoney(e.target.value)})} placeholder="0" className="rounded-xl" />
                                 </div>
                             </div>
                             <div className="space-y-2">
@@ -196,7 +197,7 @@ function ExpensesPage() {
                             </div>
                             <div className="flex items-center gap-2">
                                 <p className="font-black text-[#0f172a] mr-2">₦{entry.amount.toLocaleString()}</p>
-                                <Button variant="ghost" size="icon" className="rounded-xl text-gray-400 hover:text-blue-600" onClick={() => { setEditEntry({ id: entry._id, description: entry.description, amount: entry.amount, date: entry.date }); setEditOpen(true); }}>
+                                <Button variant="ghost" size="icon" className="rounded-xl text-gray-400 hover:text-blue-600" onClick={() => { setEditEntry({ id: entry._id, description: entry.description, amount: formatMoney(entry.amount), date: entry.date }); setEditOpen(true); }}>
                                     <Pencil className="w-4 h-4" />
                                 </Button>
                                 <Button variant="ghost" size="icon" className="rounded-xl text-gray-400 hover:text-rose-600" onClick={async () => { try { await deleteExpense({ id: entry._id }); toast.success('Deleted'); } catch { toast.error('Failed'); } }}>
@@ -215,9 +216,9 @@ function ExpensesPage() {
                     {editEntry && (
                         <div className="space-y-4 mt-4">
                             <div className="space-y-2"><Label className="text-xs font-black uppercase tracking-widest text-gray-400">Description</Label><Input value={editEntry.description} onChange={e => setEditEntry({...editEntry, description: e.target.value})} className="rounded-xl" /></div>
-                            <div className="space-y-2"><Label className="text-xs font-black uppercase tracking-widest text-gray-400">Amount</Label><Input type="number" value={editEntry.amount} onChange={e => setEditEntry({...editEntry, amount: e.target.value})} className="rounded-xl" /></div>
+                            <div className="space-y-2"><Label className="text-xs font-black uppercase tracking-widest text-gray-400">Amount</Label><Input type="text" inputMode="decimal" value={editEntry.amount} onChange={e => setEditEntry({...editEntry, amount: formatMoney(e.target.value)})} className="rounded-xl" /></div>
                             <div className="space-y-2"><Label className="text-xs font-black uppercase tracking-widest text-gray-400">Date</Label><Input type="date" value={editEntry.date} onChange={e => setEditEntry({...editEntry, date: e.target.value})} className="rounded-xl" /></div>
-                            <Button className="w-full rounded-2xl bg-[#2D5A27] text-white font-black py-6" onClick={async () => { try { await updateExpense({ id: editEntry.id, description: editEntry.description, amount: Number(editEntry.amount), date: editEntry.date }); toast.success('Updated!'); setEditOpen(false); } catch { toast.error('Failed'); } }}>Save Changes</Button>
+                            <Button className="w-full rounded-2xl bg-[#2D5A27] text-white font-black py-6" onClick={async () => { try { await updateExpense({ id: editEntry.id, description: editEntry.description, amount: Number(parseMoney(editEntry.amount)), date: editEntry.date }); toast.success('Updated!'); setEditOpen(false); } catch { toast.error('Failed'); } }}>Save Changes</Button>
                         </div>
                     )}
                 </DialogContent>

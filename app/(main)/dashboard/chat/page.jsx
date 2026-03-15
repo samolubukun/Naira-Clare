@@ -169,7 +169,7 @@ function TaxAssistant() {
 
             {/* Main Chat Area */}
             <div className="flex-1 flex flex-col bg-white md:rounded-[2.5rem] rounded-[2rem] border border-gray-50 shadow-sm overflow-hidden mb-4 md:mb-0">
-                <div className="md:p-8 p-6 border-b border-gray-50 flex items-center justify-between bg-white/50 backdrop-blur-md sticky top-0 z-20">
+                <div className="md:p-8 p-6 border-b border-gray-50 flex items-center justify-between bg-white sticky top-0 z-20">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center">
                             <Bot className="w-6 h-6 text-[#2D5A27]" />

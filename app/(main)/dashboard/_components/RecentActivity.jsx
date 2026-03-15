@@ -97,9 +97,9 @@ function RecentActivity() {
       ) : (
         <div className='space-y-2.5'>
           {activities.map((activity) => (
-            <div key={activity.id} className='group flex justify-between items-start bg-white hover:bg-gray-50/50 rounded-2xl p-3 border border-gray-50 hover:border-[#2D5A27]/20 transition-all duration-300 shadow-sm'>
+            <div key={activity.id} className='group flex justify-between items-start bg-white hover:bg-gray-50 rounded-2xl p-3 border border-gray-50 hover:border-[#2D5A27]/20 transition-all duration-300 shadow-sm'>
               <div className='flex gap-3 items-start min-w-0 flex-1'>
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${activity.type === 'income' ? 'bg-emerald-50 text-emerald-600' : 'bg-blue-50 text-blue-600'} border border-white/10 shadow-inner`}>
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${activity.type === 'income' ? 'bg-emerald-50 text-emerald-600' : 'bg-blue-50 text-blue-600'} border border-gray-100 shadow-inner`}>
                   {activity.type === 'income' ? <ArrowUpRight className="w-4 h-4" /> : <Receipt className="w-4 h-4" />}
                 </div>
                 <div className='min-w-0 flex-1'>

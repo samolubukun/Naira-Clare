@@ -102,7 +102,7 @@ function NairaFeatures() {
                                     <Link href={feature.href}>
                                         <Card className='group relative border-border 
                                         hover:border-[#2D5A27]/30 transition-all duration-500 cursor-pointer
-                                        hover:shadow-xl hover:-translate-y-1 h-full bg-white backdrop-blur-sm rounded-[1.5rem]'>
+                                        hover:shadow-xl hover:-translate-y-1 h-full bg-white rounded-[1.5rem]'>
                                             <CardContent className='p-5 flex flex-col justify-center items-center h-full min-h-[130px]'>
                                                 <div className={`relative mb-3 w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br ${feature.color} group-hover:scale-110 transition-all duration-500 shadow-sm`}>
                                                     <feature.icon className={`w-6 h-6 ${feature.iconColor} z-10`} />

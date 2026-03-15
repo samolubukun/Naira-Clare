@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from '@/components/ui/label';
 import { Plus, Building2, Play, Users, FileDown } from 'lucide-react';
 import { toast } from 'sonner';
+import { formatMoney, parseMoney } from '@/lib/utils';
 
 function PayrollPage() {
     const { userData } = useContext(UserContext);
@@ -25,7 +26,12 @@ function PayrollPage() {
         try {
             await createEmployee({
                 userId: userData._id, employeeName: form.employeeName,
-                salaryStructure: { basic: Number(form.basic), housing: Number(form.housing || 0), transport: Number(form.transport || 0), other: Number(form.other || 0) },
+                salaryStructure: { 
+                    basic: Number(parseMoney(form.basic)), 
+                    housing: Number(parseMoney(form.housing || 0)), 
+                    transport: Number(parseMoney(form.transport || 0)), 
+                    other: Number(parseMoney(form.other || 0)) 
+                },
             });
             toast.success("Employee added!");
             setForm({ employeeName: '', basic: '', housing: '', transport: '', other: '' });
@@ -69,10 +75,10 @@ function PayrollPage() {
                                     <Input value={form.employeeName} onChange={e => setForm({...form, employeeName: e.target.value})} className="rounded-xl" />
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <div className="space-y-2"><Label className="text-xs font-black uppercase tracking-widest text-gray-400">Basic (₦)</Label><Input type="number" value={form.basic} onChange={e => setForm({...form, basic: e.target.value})} className="rounded-xl" /></div>
-                                    <div className="space-y-2"><Label className="text-xs font-black uppercase tracking-widest text-gray-400">Housing (₦)</Label><Input type="number" value={form.housing} onChange={e => setForm({...form, housing: e.target.value})} className="rounded-xl" /></div>
-                                    <div className="space-y-2"><Label className="text-xs font-black uppercase tracking-widest text-gray-400">Transport (₦)</Label><Input type="number" value={form.transport} onChange={e => setForm({...form, transport: e.target.value})} className="rounded-xl" /></div>
-                                    <div className="space-y-2"><Label className="text-xs font-black uppercase tracking-widest text-gray-400">Other (₦)</Label><Input type="number" value={form.other} onChange={e => setForm({...form, other: e.target.value})} className="rounded-xl" /></div>
+                                    <div className="space-y-2"><Label className="text-xs font-black uppercase tracking-widest text-gray-400">Basic (₦)</Label><Input type="text" inputMode="decimal" value={formatMoney(form.basic)} onChange={e => setForm({...form, basic: formatMoney(e.target.value)})} className="rounded-xl" /></div>
+                                    <div className="space-y-2"><Label className="text-xs font-black uppercase tracking-widest text-gray-400">Housing (₦)</Label><Input type="text" inputMode="decimal" value={formatMoney(form.housing)} onChange={e => setForm({...form, housing: formatMoney(e.target.value)})} className="rounded-xl" /></div>
+                                    <div className="space-y-2"><Label className="text-xs font-black uppercase tracking-widest text-gray-400">Transport (₦)</Label><Input type="text" inputMode="decimal" value={formatMoney(form.transport)} onChange={e => setForm({...form, transport: formatMoney(e.target.value)})} className="rounded-xl" /></div>
+                                    <div className="space-y-2"><Label className="text-xs font-black uppercase tracking-widest text-gray-400">Other (₦)</Label><Input type="text" inputMode="decimal" value={formatMoney(form.other)} onChange={e => setForm({...form, other: formatMoney(e.target.value)})} className="rounded-xl" /></div>
                                 </div>
                                 <Button type="submit" className="w-full rounded-2xl bg-[#2D5A27] text-white font-black py-6">Add Employee</Button>
                             </form>

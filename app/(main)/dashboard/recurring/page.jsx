@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { RefreshCw, Plus, Trash2, Pause, Play } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState } from 'react';
+import { formatMoney, parseMoney } from '@/lib/utils';
 
 const CATEGORIES = ['Rent', 'NHIS', 'Pension', 'Life Insurance', 'Retainer', 'Subscription', 'Other'];
 
@@ -31,7 +32,7 @@ function RecurringPage() {
             await createEntry({
                 userId: userData._id,
                 name: form.name,
-                amount: Number(form.amount),
+                amount: Number(parseMoney(form.amount)),
                 category: form.category,
                 frequency: form.frequency,
                 type: form.type,
@@ -77,7 +78,7 @@ function RecurringPage() {
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Amount (₦)</Label>
-                                    <Input type="number" value={form.amount} onChange={e => setForm({...form, amount: e.target.value})} placeholder="0" className="rounded-xl" />
+                                    <Input type="text" inputMode="decimal" value={formatMoney(form.amount)} onChange={e => setForm({...form, amount: formatMoney(e.target.value)})} placeholder="0" className="rounded-xl" />
                                 </div>
                                 <div className="space-y-2">
                                     <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Category</Label>

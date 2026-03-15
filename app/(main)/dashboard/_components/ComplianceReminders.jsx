@@ -112,7 +112,7 @@ function ComplianceReminders() {
                                     </div>
                                     <div className="flex flex-wrap gap-2 mt-4 ml-1">
                                         <Button variant="ghost" size="sm" onClick={() => handleDone(item._id)}
-                                            className="h-7 rounded-lg text-[9px] font-black text-emerald-600 hover:bg-emerald-50 bg-emerald-50/30 uppercase tracking-widest px-2.5">
+                                            className="h-7 rounded-lg text-[9px] font-black text-emerald-600 hover:bg-emerald-50 bg-emerald-50 uppercase tracking-widest px-2.5">
                                             <Check className="w-3 h-3 mr-1" /> Done
                                         </Button>
                                         <Button variant="ghost" size="sm" onClick={() => handleDismiss(item._id)}

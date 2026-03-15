@@ -3,7 +3,7 @@ import React from 'react';
 
 const Loader = () => {
     return (
-        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background/80 backdrop-blur-md animate-in fade-in duration-500">
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background animate-in fade-in duration-500">
             <div className="relative flex items-center justify-center">
                 {/* Outer Ring */}
                 <div className="h-24 w-24 rounded-full border-t-2 border-r-2 border-premium-gold animate-spin"></div>

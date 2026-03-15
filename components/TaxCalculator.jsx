@@ -14,6 +14,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { currencies, getExchangeRates, convertToNGN } from "@/lib/currencies";
+import { formatMoney, parseMoney } from "@/lib/utils";
 
 export default function TaxCalculator({ isDashboard = false }) {
     const router = useRouter();
@@ -48,17 +49,31 @@ export default function TaxCalculator({ isDashboard = false }) {
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
+        
+        // Handle money formatting for specific fields
+        const moneyFields = [
+            'basic', 'housing', 'transport', 'other', 
+            'annualRent', 'lifeInsurance', 'loanInterest',
+            'pensionValue', 'nhfValue', 'nhisValue'
+        ];
+
+        let finalValue = type === 'checkbox' ? checked : value;
+        
+        if (moneyFields.includes(name) || name.endsWith('Value')) {
+            finalValue = formatMoney(value);
+        }
+
         setFormData(prev => ({
             ...prev,
-            [name]: type === 'checkbox' ? checked : value
+            [name]: finalValue
         }));
     };
 
     // Helper to calculate auto-values in real-time for display
     const getAutoValues = () => {
-        const b = parseFloat(formData.basic || 0);
-        const h = parseFloat(formData.housing || 0);
-        const t = parseFloat(formData.transport || 0);
+        const b = parseFloat(parseMoney(formData.basic) || 0);
+        const h = parseFloat(parseMoney(formData.housing) || 0);
+        const t = parseFloat(parseMoney(formData.transport) || 0);
         
         return {
             pension: (b + h + t) * 0.08,
@@ -70,7 +85,7 @@ export default function TaxCalculator({ isDashboard = false }) {
     const auto = getAutoValues();
 
     const calculate = () => {
-        const convert = (val) => convertToNGN(parseFloat(val || 0), selectedCurrency.code, rates);
+        const convert = (val) => convertToNGN(parseFloat(parseMoney(val) || 0), selectedCurrency.code, rates);
 
         const factor = isMonthly ? 12 : 1;
         const b = convert(formData.basic) * factor;
@@ -144,12 +159,14 @@ export default function TaxCalculator({ isDashboard = false }) {
 
     const IntegratedInput = ({ label, name, field, autoValue }) => {
         const isAuto = formData[`${field}Auto`];
-        const displayValue = isAuto 
+        const rawValue = isAuto 
             ? (autoValue > 0 ? Math.round(autoValue).toString() : "") 
             : formData[`${field}Value`];
+            
+        const displayValue = formatMoney(rawValue);
 
         const ngnEquiv = selectedCurrency.code !== "NGN" && !isAuto && formData[`${field}Value`]
-            ? convertToNGN(parseFloat(formData[`${field}Value`]), selectedCurrency.code, rates)
+            ? convertToNGN(parseFloat(parseMoney(formData[`${field}Value`])), selectedCurrency.code, rates)
             : null;
 
         return (
@@ -175,7 +192,8 @@ export default function TaxCalculator({ isDashboard = false }) {
                         placeholder={isAuto ? "Auto-fill..." : "0"} 
                         disabled={isAuto}
                         className={`bg-white border-gray-200 h-14 pl-10 text-lg font-bold placeholder:text-gray-400/50 transition-all ${isAuto ? "bg-emerald-50/20 text-[#008751] border-emerald-100 opacity-90 shadow-inner" : "focus:ring-[#008751] shadow-sm"}`} 
-                        type="number" 
+                        type="text"
+                        inputMode="decimal"
                     />
                 </div>
                 <button 
@@ -253,7 +271,7 @@ export default function TaxCalculator({ isDashboard = false }) {
                                         </Label>
                                         {selectedCurrency.code !== "NGN" && formData.basic && (
                                             <span className="text-[8px] font-black text-emerald-600">
-                                                ≈ ₦{Math.round(convertToNGN(parseFloat(formData.basic), selectedCurrency.code, rates)).toLocaleString()}
+                                                ≈ ₦{Math.round(convertToNGN(parseFloat(parseMoney(formData.basic)), selectedCurrency.code, rates)).toLocaleString()}
                                             </span>
                                         )}
                                     </div>
@@ -267,7 +285,8 @@ export default function TaxCalculator({ isDashboard = false }) {
                                             onChange={handleInputChange} 
                                             placeholder={isMonthly ? "250,000" : "3,000,000"} 
                                             className="bg-white border-gray-200 h-14 pl-10 text-xl font-black focus:ring-[#008751] placeholder:text-gray-400/50" 
-                                            type="number" 
+                                            type="text"
+                                            inputMode="decimal"
                                         />
                                     </div>
                                 </div>
@@ -278,7 +297,7 @@ export default function TaxCalculator({ isDashboard = false }) {
                                         </Label>
                                         {selectedCurrency.code !== "NGN" && formData.housing && (
                                             <span className="text-[8px] font-black text-emerald-600">
-                                                ≈ ₦{Math.round(convertToNGN(parseFloat(formData.housing), selectedCurrency.code, rates)).toLocaleString()}
+                                                ≈ ₦{Math.round(convertToNGN(parseFloat(parseMoney(formData.housing)), selectedCurrency.code, rates)).toLocaleString()}
                                             </span>
                                         )}
                                     </div>
@@ -292,7 +311,8 @@ export default function TaxCalculator({ isDashboard = false }) {
                                             onChange={handleInputChange} 
                                             placeholder="0" 
                                             className="bg-white border-gray-200 h-14 pl-10 text-lg font-bold placeholder:font-medium placeholder:text-[10px] sm:placeholder:text-xs placeholder:text-gray-400/50" 
-                                            type="number" 
+                                            type="text"
+                                            inputMode="decimal"
                                         />
                                     </div>
                                 </div>
@@ -303,7 +323,7 @@ export default function TaxCalculator({ isDashboard = false }) {
                                         </Label>
                                         {selectedCurrency.code !== "NGN" && formData.transport && (
                                             <span className="text-[8px] font-black text-emerald-600">
-                                                ≈ ₦{Math.round(convertToNGN(parseFloat(formData.transport), selectedCurrency.code, rates)).toLocaleString()}
+                                                ≈ ₦{Math.round(convertToNGN(parseFloat(parseMoney(formData.transport)), selectedCurrency.code, rates)).toLocaleString()}
                                             </span>
                                         )}
                                     </div>
@@ -317,7 +337,8 @@ export default function TaxCalculator({ isDashboard = false }) {
                                             onChange={handleInputChange} 
                                             placeholder="0" 
                                             className="bg-white border-gray-200 h-14 pl-10 text-lg font-bold placeholder:font-medium placeholder:text-[10px] sm:placeholder:text-xs placeholder:text-gray-400/50" 
-                                            type="number" 
+                                            type="text"
+                                            inputMode="decimal"
                                         />
                                     </div>
                                 </div>
@@ -328,7 +349,7 @@ export default function TaxCalculator({ isDashboard = false }) {
                                         </Label>
                                         {selectedCurrency.code !== "NGN" && formData.other && (
                                             <span className="text-[8px] font-black text-emerald-600">
-                                                ≈ ₦{Math.round(convertToNGN(parseFloat(formData.other), selectedCurrency.code, rates)).toLocaleString()}
+                                                ≈ ₦{Math.round(convertToNGN(parseFloat(parseMoney(formData.other)), selectedCurrency.code, rates)).toLocaleString()}
                                             </span>
                                         )}
                                     </div>
@@ -374,7 +395,7 @@ export default function TaxCalculator({ isDashboard = false }) {
                                                 <Label className="text-xs font-black uppercase tracking-wider text-gray-500">Annual Rent Paid</Label>
                                                 {selectedCurrency.code !== "NGN" && formData.annualRent && (
                                                     <span className="text-[10px] font-black text-emerald-600">
-                                                        ≈ ₦{Math.round(convertToNGN(parseFloat(formData.annualRent), selectedCurrency.code, rates)).toLocaleString()}
+                                                        ≈ ₦{Math.round(convertToNGN(parseFloat(parseMoney(formData.annualRent)), selectedCurrency.code, rates)).toLocaleString()}
                                                     </span>
                                                 )}
                                             </div>
@@ -384,7 +405,7 @@ export default function TaxCalculator({ isDashboard = false }) {
                                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm">
                                                 {selectedCurrency.symbol}
                                             </span>
-                                            <Input name="annualRent" value={formData.annualRent} onChange={handleInputChange} placeholder="e.g. 1,200,000" className="bg-white border-gray-200 h-12 pl-10 font-bold placeholder:font-medium placeholder:text-[10px] sm:placeholder:text-xs placeholder:text-gray-400/50" type="number" />
+                                            <Input name="annualRent" value={formData.annualRent} onChange={handleInputChange} placeholder="e.g. 1,200,000" className="bg-white border-gray-200 h-12 pl-10 font-bold placeholder:font-medium placeholder:text-[10px] sm:placeholder:text-xs placeholder:text-gray-400/50" type="text" inputMode="decimal" />
                                         </div>
                                     </div>
                                 </div>
@@ -415,7 +436,7 @@ export default function TaxCalculator({ isDashboard = false }) {
                                                     </Label>
                                                     {selectedCurrency.code !== "NGN" && formData.loanInterest && (
                                                         <span className="text-[10px] font-black text-emerald-600">
-                                                            ≈ ₦{Math.round(convertToNGN(parseFloat(formData.loanInterest), selectedCurrency.code, rates)).toLocaleString()}
+                                                            ≈ ₦{Math.round(convertToNGN(parseFloat(parseMoney(formData.loanInterest)), selectedCurrency.code, rates)).toLocaleString()}
                                                         </span>
                                                     )}
                                                 </div>
@@ -423,7 +444,7 @@ export default function TaxCalculator({ isDashboard = false }) {
                                                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs">
                                                         {selectedCurrency.symbol}
                                                     </span>
-                                                    <Input name="loanInterest" value={formData.loanInterest} onChange={handleInputChange} placeholder="Annual amount" className="bg-white border-gray-200 h-11 pl-8 placeholder:font-medium placeholder:text-[10px] sm:placeholder:text-xs placeholder:text-gray-400/50" type="number" />
+                                                    <Input name="loanInterest" value={formData.loanInterest} onChange={handleInputChange} placeholder="Annual amount" className="bg-white border-gray-200 h-11 pl-8 placeholder:font-medium placeholder:text-[10px] sm:placeholder:text-xs placeholder:text-gray-400/50" type="text" inputMode="decimal" />
                                                 </div>
                                             </div>
                                             <div className="space-y-3">
@@ -434,7 +455,7 @@ export default function TaxCalculator({ isDashboard = false }) {
                                                     </Label>
                                                     {selectedCurrency.code !== "NGN" && formData.lifeInsurance && (
                                                         <span className="text-[10px] font-black text-emerald-600">
-                                                            ≈ ₦{Math.round(convertToNGN(parseFloat(formData.lifeInsurance), selectedCurrency.code, rates)).toLocaleString()}
+                                                            ≈ ₦{Math.round(convertToNGN(parseFloat(parseMoney(formData.lifeInsurance)), selectedCurrency.code, rates)).toLocaleString()}
                                                         </span>
                                                     )}
                                                 </div>
@@ -442,7 +463,7 @@ export default function TaxCalculator({ isDashboard = false }) {
                                                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs">
                                                         {selectedCurrency.symbol}
                                                     </span>
-                                                    <Input name="lifeInsurance" value={formData.lifeInsurance} onChange={handleInputChange} placeholder="Annual amount" className="bg-white border-gray-200 h-11 pl-8 placeholder:font-medium placeholder:text-[10px] sm:placeholder:text-xs placeholder:text-gray-400/50" type="number" />
+                                                    <Input name="lifeInsurance" value={formData.lifeInsurance} onChange={handleInputChange} placeholder="Annual amount" className="bg-white border-gray-200 h-11 pl-8 placeholder:font-medium placeholder:text-[10px] sm:placeholder:text-xs placeholder:text-gray-400/50" type="text" inputMode="decimal" />
                                                 </div>
                                             </div>
                                         </div>
@@ -513,7 +534,7 @@ export default function TaxCalculator({ isDashboard = false }) {
                                         <div className="space-y-1">
                                             <h5 className="text-[9px] text-emerald-800 font-black uppercase tracking-[0.2em]">Rent Relief Applied</h5>
                                             <p className="text-xs font-bold text-emerald-900 leading-relaxed">
-                                                Based on ₦{(parseFloat(formData.annualRent || 0)).toLocaleString()} rent
+                                                Based on ₦{(parseFloat(parseMoney(formData.annualRent || 0))).toLocaleString()} rent
                                             </p>
                                         </div>
                                         <div className="text-right">

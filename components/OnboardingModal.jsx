@@ -19,6 +19,7 @@ import {
     ArrowRight, MapPin, Wallet 
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { formatMoney, parseMoney } from "@/lib/utils";
 
 export default function OnboardingModal({ isOpen, user, onComplete }) {
     const [step, setStep] = useState(1);
@@ -39,10 +40,10 @@ export default function OnboardingModal({ isOpen, user, onComplete }) {
             onboardingType: formData.userType,
             stateOfResidence: formData.residence,
             salaryProfile: formData.userType === "employee" ? {
-                basic: parseFloat(formData.basic || 0),
-                housing: parseFloat(formData.housing || 0),
-                transport: parseFloat(formData.transport || 0),
-                otherAllowances: parseFloat(formData.other || 0),
+                basic: parseFloat(parseMoney(formData.basic || 0)),
+                housing: parseFloat(parseMoney(formData.housing || 0)),
+                transport: parseFloat(parseMoney(formData.transport || 0)),
+                otherAllowances: parseFloat(parseMoney(formData.other || 0)),
                 pensionEnabled: true,
                 nhfEnabled: true,
                 nhisEnabled: false,
@@ -63,7 +64,7 @@ export default function OnboardingModal({ isOpen, user, onComplete }) {
                             Let's tailor your always-on accountant.
                         </DialogDescription>
                     </DialogHeader>
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#8FAF6A]/10 blur-[80px] -z-0" />
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#8FAF6A] opacity-10 -z-0" />
                 </div>
 
                 <div className="p-12 bg-white">
@@ -79,7 +80,7 @@ export default function OnboardingModal({ isOpen, user, onComplete }) {
                                     <button 
                                         key={type.id}
                                         onClick={() => setFormData({...formData, userType: type.id})}
-                                        className={`p-6 rounded-3xl border-2 transition-all text-left flex flex-col gap-4 ${formData.userType === type.id ? "border-[#2D5A27] bg-[#8FAF6A]/5 shadow-lg" : "border-gray-100 hover:border-gray-200"}`}
+                                        className={`p-6 rounded-3xl border-2 transition-all text-left flex flex-col gap-4 ${formData.userType === type.id ? "border-[#2D5A27] bg-[#f4f8f0] shadow-lg" : "border-gray-100 hover:border-gray-200"}`}
                                     >
                                         <type.icon className={`w-10 h-10 ${formData.userType === type.id ? "text-[#2D5A27]" : "text-gray-300"}`} />
                                         <div>
@@ -123,10 +124,10 @@ export default function OnboardingModal({ isOpen, user, onComplete }) {
                                         <Wallet className="w-3 h-3" /> Monthly Salary Breakdown
                                     </Label>
                                     <div className="grid grid-cols-2 gap-4">
-                                        <Input placeholder="Basic" value={formData.basic} onChange={(e) => setFormData({...formData, basic: e.target.value})} className="py-6 rounded-xl border-gray-100" type="number" />
-                                        <Input placeholder="Housing" value={formData.housing} onChange={(e) => setFormData({...formData, housing: e.target.value})} className="py-6 rounded-xl border-gray-100" type="number" />
-                                        <Input placeholder="Transport" value={formData.transport} onChange={(e) => setFormData({...formData, transport: e.target.value})} className="py-6 rounded-xl border-gray-100" type="number" />
-                                        <Input placeholder="Other" value={formData.other} onChange={(e) => setFormData({...formData, other: e.target.value})} className="py-6 rounded-xl border-gray-100" type="number" />
+                                        <Input placeholder="Basic" value={formData.basic} onChange={(e) => setFormData({...formData, basic: formatMoney(e.target.value)})} className="py-6 rounded-xl border-gray-100" type="text" inputMode="decimal" />
+                                        <Input placeholder="Housing" value={formData.housing} onChange={(e) => setFormData({...formData, housing: formatMoney(e.target.value)})} className="py-6 rounded-xl border-gray-100" type="text" inputMode="decimal" />
+                                        <Input placeholder="Transport" value={formData.transport} onChange={(e) => setFormData({...formData, transport: formatMoney(e.target.value)})} className="py-6 rounded-xl border-gray-100" type="text" inputMode="decimal" />
+                                        <Input placeholder="Other" value={formData.other} onChange={(e) => setFormData({...formData, other: formatMoney(e.target.value)})} className="py-6 rounded-xl border-gray-100" type="text" inputMode="decimal" />
                                     </div>
                                 </motion.div>
                             )}
