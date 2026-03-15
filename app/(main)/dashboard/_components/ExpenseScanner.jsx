@@ -70,13 +70,18 @@ function ExpenseScanner({ userId, onComplete }) {
     const handleSave = async () => {
         if (!result) return;
         try {
+            const date = result.date || new Date().toISOString().split('T')[0];
+            const amount = parseFloat(result.amount);
+            const dedupeKey = `${date}_${amount}_${result.description.toLowerCase().trim().replace(/\s+/g, '_')}`;
+
             await createExpense({
                 userId,
                 description: result.description,
                 category: result.category,
-                amount: parseFloat(result.amount),
-                date: result.date || new Date().toISOString().split('T')[0],
-                isDeductible: result.isDeductible
+                amount,
+                date,
+                isDeductible: result.isDeductible,
+                dedupeKey
             });
             toast.success("Expense logged via AI!");
             if (onComplete) onComplete();

@@ -30,7 +30,8 @@ export default defineSchema({
         date: v.string(), // YYYY-MM-DD
         isTaxable: v.boolean(),
         invoiceId: v.optional(v.id('invoices')),
-    }).index("by_user", ["uid"]).index("by_user_date", ["uid", "date"]),
+        dedupeKey: v.optional(v.string()),
+    }).index("by_user", ["uid"]).index("by_user_date", ["uid", "date"]).index("by_user_dedupe", ["uid", "dedupeKey"]),
 
     expenses: defineTable({
         uid: v.id('users'),
@@ -40,7 +41,8 @@ export default defineSchema({
         date: v.string(),
         isDeductible: v.boolean(),
         receiptStorageId: v.optional(v.id('_storage')),
-    }).index("by_user", ["uid"]).index("by_user_category", ["uid", "category"]),
+        dedupeKey: v.optional(v.string()),
+    }).index("by_user", ["uid"]).index("by_user_category", ["uid", "category"]).index("by_user_dedupe", ["uid", "dedupeKey"]),
 
     clients: defineTable({
         uid: v.id('users'),

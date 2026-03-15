@@ -70,6 +70,8 @@ function StatementImporter({ userId, onComplete }) {
         setLoading(true);
         try {
             for (const tx of transactions) {
+                const dedupeKey = `${tx.date}_${tx.amount}_${tx.description.toLowerCase().trim().replace(/\s+/g, '_')}`;
+
                 if (tx.type === 'income') {
                     await createIncome({
                         userId,
@@ -79,7 +81,8 @@ function StatementImporter({ userId, onComplete }) {
                         currency: "NGN",
                         exchangeRate: 1,
                         date: tx.date,
-                        isTaxable: tx.isTaxableOrDeductible
+                        isTaxable: tx.isTaxableOrDeductible,
+                        dedupeKey
                     });
                 } else {
                     await createExpense({
@@ -88,7 +91,8 @@ function StatementImporter({ userId, onComplete }) {
                         category: tx.category,
                         amount: tx.amount,
                         date: tx.date,
-                        isDeductible: tx.isTaxableOrDeductible
+                        isDeductible: tx.isTaxableOrDeductible,
+                        dedupeKey
                     });
                 }
             }

@@ -169,10 +169,20 @@ export const createIncome = mutation({
         date: v.string(),
         isTaxable: v.boolean(),
         invoiceId: v.optional(v.id('invoices')),
+        dedupeKey: v.optional(v.string()),
     },
     handler: async (ctx, args) => {
-        const { userId, ...data } = args;
-        return await ctx.db.insert("income", { uid: userId, ...data });
+        const { userId, dedupeKey, ...data } = args;
+        
+        if (dedupeKey) {
+            const existing = await ctx.db
+                .query("income")
+                .withIndex("by_user_dedupe", (q) => q.eq("uid", userId).eq("dedupeKey", dedupeKey))
+                .first();
+            if (existing) return existing._id;
+        }
+
+        return await ctx.db.insert("income", { uid: userId, dedupeKey, ...data });
     }
 });
 
@@ -188,10 +198,20 @@ export const createExpense = mutation({
         date: v.string(),
         isDeductible: v.boolean(),
         receiptStorageId: v.optional(v.id('_storage')),
+        dedupeKey: v.optional(v.string()),
     },
     handler: async (ctx, args) => {
-        const { userId, ...data } = args;
-        return await ctx.db.insert("expenses", { uid: userId, ...data });
+        const { userId, dedupeKey, ...data } = args;
+
+        if (dedupeKey) {
+            const existing = await ctx.db
+                .query("expenses")
+                .withIndex("by_user_dedupe", (q) => q.eq("uid", userId).eq("dedupeKey", dedupeKey))
+                .first();
+            if (existing) return existing._id;
+        }
+
+        return await ctx.db.insert("expenses", { uid: userId, dedupeKey, ...data });
     }
 });
 
