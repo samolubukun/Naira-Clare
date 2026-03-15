@@ -138,17 +138,17 @@ function ExpensesPage() {
             {/* Category Breakdown */}
             {Object.keys(categoryBreakdown).length > 0 && (
                 <Card className="rounded-[2rem] border-gray-100">
-                    <CardContent className="p-6">
-                        <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Category Breakdown</h3>
+                    <CardContent className="p-4 sm:p-6">
+                        <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Category Breakdown</h3>
                         <div className="space-y-3">
                             {Object.entries(categoryBreakdown).sort((a, b) => b[1] - a[1]).map(([cat, amt]) => (
-                                <div key={cat} className="flex items-center justify-between">
-                                    <span className="text-sm font-bold text-[#0f172a]">{cat}</span>
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
+                                <div key={cat} className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4">
+                                    <span className="text-[11px] sm:text-sm font-bold text-[#0f172a] truncate lg:overflow-visible lg:whitespace-normal">{cat}</span>
+                                    <div className="flex items-center gap-2 sm:gap-3 flex-1 sm:justify-end">
+                                        <div className="flex-1 sm:w-24 h-1.5 sm:h-2 bg-gray-100 rounded-full overflow-hidden">
                                             <div className="h-full bg-[#2D5A27] rounded-full" style={{ width: `${(amt / totalExpenses) * 100}%` }} />
                                         </div>
-                                        <span className="text-sm font-black text-gray-500 w-28 text-right">₦{amt.toLocaleString()}</span>
+                                        <span className="text-[11px] sm:text-sm font-black text-gray-500 whitespace-nowrap min-w-[70px] sm:w-28 text-right">₦{amt.toLocaleString()}</span>
                                     </div>
                                 </div>
                             ))}
@@ -182,27 +182,29 @@ function ExpensesPage() {
                     </div>
                 ) : filtered.map((entry) => (
                     <Card key={entry._id} className="rounded-2xl border-gray-100 hover:border-purple-100 transition-all hover:shadow-sm">
-                        <CardContent className="p-4 flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${entry.isDeductible ? 'bg-emerald-50' : 'bg-gray-50'}`}>
-                                    <ArrowDownRight className={`w-5 h-5 ${entry.isDeductible ? 'text-emerald-600' : 'text-gray-400'}`} />
+                        <CardContent className="p-3 sm:p-4 flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+                                <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 ${entry.isDeductible ? 'bg-emerald-50' : 'bg-gray-50'}`}>
+                                    <ArrowDownRight className={`w-4 h-4 sm:w-5 sm:h-5 ${entry.isDeductible ? 'text-emerald-600' : 'text-gray-400'}`} />
                                 </div>
-                                <div>
-                                    <p className="font-bold text-[#0f172a] text-sm">{entry.description}</p>
-                                    <p className="text-[10px] text-gray-400 font-medium">
+                                <div className="min-w-0 flex-1">
+                                    <p className="font-bold text-[#0f172a] text-[11px] sm:text-sm leading-tight break-words">{entry.description}</p>
+                                    <p className="text-[9px] sm:text-[10px] text-gray-400 font-medium leading-tight">
                                         {entry.category} · {moment(entry.date).format('MMM D, YYYY')}
                                         {entry.isDeductible && <span className="text-emerald-500 ml-1">· Deductible</span>}
                                     </p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <p className="font-black text-[#0f172a] mr-2">₦{entry.amount.toLocaleString()}</p>
-                                <Button variant="ghost" size="icon" className="rounded-xl text-gray-400 hover:text-blue-600" onClick={() => { setEditEntry({ id: entry._id, description: entry.description, amount: formatMoney(entry.amount), date: entry.date }); setEditOpen(true); }}>
-                                    <Pencil className="w-4 h-4" />
-                                </Button>
-                                <Button variant="ghost" size="icon" className="rounded-xl text-gray-400 hover:text-rose-600" onClick={async () => { try { await deleteExpense({ id: entry._id }); toast.success('Deleted'); } catch { toast.error('Failed'); } }}>
-                                    <Trash2 className="w-4 h-4" />
-                                </Button>
+                            <div className="flex items-center gap-1 sm:gap-2 shrink-0 ml-auto">
+                                <p className="font-black text-[#0f172a] text-[11px] sm:text-base whitespace-nowrap">₦{entry.amount.toLocaleString()}</p>
+                                <div className="flex items-center gap-0.5 sm:gap-1">
+                                    <Button variant="ghost" size="icon" className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl text-gray-400 hover:text-blue-600" onClick={() => { setEditEntry({ id: entry._id, description: entry.description, amount: formatMoney(entry.amount), date: entry.date }); setEditOpen(true); }}>
+                                        <Pencil className="w-3 h-3 sm:w-4 sm:h-4" />
+                                    </Button>
+                                    <Button variant="ghost" size="icon" className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl text-gray-400 hover:text-rose-600" onClick={async () => { try { await deleteExpense({ id: entry._id }); toast.success('Deleted'); } catch { toast.error('Failed'); } }}>
+                                        <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                                    </Button>
+                                </div>
                             </div>
                         </CardContent>
                     </Card>

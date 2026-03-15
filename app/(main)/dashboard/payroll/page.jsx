@@ -89,21 +89,21 @@ function PayrollPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card className="bg-gradient-to-r from-cyan-50 to-white border-cyan-100 rounded-[2rem]">
-                    <CardContent className="p-6 flex items-center justify-between">
+                    <CardContent className="p-4 sm:p-6 flex items-center justify-between">
                         <div>
                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Active Employees</p>
-                            <p className="text-3xl font-black text-cyan-600 mt-1">{activeEmployees.length}</p>
+                            <p className="text-2xl sm:text-3xl font-black text-cyan-600 mt-1">{activeEmployees.length}</p>
                         </div>
-                        <Users className="w-8 h-8 text-cyan-300" />
+                        <Users className="w-6 h-6 sm:w-8 sm:h-8 text-cyan-300" />
                     </CardContent>
                 </Card>
                 <Card className="bg-gradient-to-r from-blue-50 to-white border-blue-100 rounded-[2rem]">
-                    <CardContent className="p-6 flex items-center justify-between">
+                    <CardContent className="p-4 sm:p-6 flex items-center justify-between">
                         <div>
                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Monthly Payroll</p>
-                            <p className="text-3xl font-black text-blue-600 mt-1">₦{totalMonthly.toLocaleString()}</p>
+                            <p className="text-2xl sm:text-3xl font-black text-blue-600 mt-1">₦{totalMonthly.toLocaleString()}</p>
                         </div>
-                        <Building2 className="w-8 h-8 text-blue-300" />
+                        <Building2 className="w-6 h-6 sm:w-8 sm:h-8 text-blue-300" />
                     </CardContent>
                 </Card>
             </div>
@@ -118,19 +118,19 @@ function PayrollPage() {
                     const total = emp.salaryStructure.basic + emp.salaryStructure.housing + emp.salaryStructure.transport + emp.salaryStructure.other;
                     return (
                         <Card key={emp._id} className="rounded-2xl border-gray-100 hover:shadow-sm transition-all">
-                            <CardContent className="p-4 flex items-center justify-between">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-xl bg-cyan-50 flex items-center justify-center">
-                                        <span className="text-sm font-black text-cyan-600">{emp.employeeName.charAt(0)}</span>
+                            <CardContent className="p-3 sm:p-4 flex items-center justify-between gap-2">
+                                <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+                                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-cyan-50 flex items-center justify-center shrink-0">
+                                        <span className="text-xs sm:text-sm font-black text-cyan-600">{emp.employeeName.charAt(0)}</span>
                                     </div>
-                                    <div>
-                                        <p className="font-bold text-[#0f172a] text-sm">{emp.employeeName}</p>
-                                        <p className="text-[10px] text-gray-400 font-medium">Basic: ₦{emp.salaryStructure.basic.toLocaleString()} · Housing: ₦{emp.salaryStructure.housing.toLocaleString()}</p>
+                                    <div className="min-w-0 flex-1">
+                                        <p className="font-bold text-[#0f172a] text-[11px] sm:text-sm leading-tight break-words">{emp.employeeName}</p>
+                                        <p className="text-[9px] sm:text-[10px] text-gray-400 font-medium leading-tight">Basic: ₦{emp.salaryStructure.basic.toLocaleString()} · Housing: ₦{emp.salaryStructure.housing.toLocaleString()}</p>
                                     </div>
                                 </div>
-                                <div className="text-right">
-                                    <p className="font-black text-[#0f172a]">₦{total.toLocaleString()}</p>
-                                    <p className="text-[9px] text-gray-400 font-bold">/month</p>
+                                <div className="text-right shrink-0">
+                                    <p className="font-black text-[#0f172a] text-[11px] sm:text-base">₦{total.toLocaleString()}</p>
+                                    <p className="text-[8px] sm:text-[9px] text-gray-400 font-bold leading-none">/month</p>
                                 </div>
                             </CardContent>
                         </Card>

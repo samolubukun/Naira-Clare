@@ -130,10 +130,10 @@ function IncomePage() {
 
             {/* Running Total */}
             <Card className="bg-gradient-to-r from-emerald-50 to-white border-emerald-100 rounded-[2rem]">
-                <CardContent className="p-6 flex items-center justify-between">
+                <CardContent className="p-4 sm:p-6 flex items-center justify-between">
                     <div>
                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Running Total</p>
-                        <p className="text-3xl font-black text-[#0f172a]">₦{totalIncome.toLocaleString()}</p>
+                        <p className="text-2xl sm:text-3xl font-black text-[#0f172a]">₦{totalIncome.toLocaleString()}</p>
                     </div>
                     <div className="text-right">
                         <p className="text-sm font-bold text-gray-500">{filtered.length} entries</p>
@@ -167,29 +167,31 @@ function IncomePage() {
                     </div>
                 ) : filtered.map((entry) => (
                     <Card key={entry._id} className="rounded-2xl border-gray-100 hover:border-emerald-100 transition-all hover:shadow-sm">
-                        <CardContent className="p-4 flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
-                                    <ArrowUpRight className="w-5 h-5 text-emerald-600" />
+                        <CardContent className="p-3 sm:p-4 flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+                                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+                                    <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />
                                 </div>
-                                <div>
-                                    <p className="font-bold text-[#0f172a] text-sm">{entry.source}</p>
-                                    <p className="text-[10px] text-gray-400 font-medium">
+                                <div className="min-w-0 flex-1">
+                                    <p className="font-bold text-[#0f172a] text-[11px] sm:text-sm leading-tight break-words">{entry.source}</p>
+                                    <p className="text-[9px] sm:text-[10px] text-gray-400 font-medium leading-tight">
                                         {entry.type} · {moment(entry.date).format('MMM D, YYYY')} {!entry.isTaxable && '· Non-taxable'}
                                     </p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <div className="text-right mr-2">
-                                    <p className="font-black text-emerald-600">₦{(entry.amount * (entry.exchangeRate || 1)).toLocaleString()}</p>
-                                    {entry.currency !== 'NGN' && <p className="text-[9px] text-gray-400">{entry.currency} {entry.amount.toLocaleString()}</p>}
+                            <div className="flex items-center gap-1 sm:gap-2 shrink-0 ml-auto">
+                                <div className="text-right mr-1 sm:mr-2">
+                                    <p className="font-black text-emerald-600 text-[11px] sm:text-base whitespace-nowrap">₦{(entry.amount * (entry.exchangeRate || 1)).toLocaleString()}</p>
+                                    {entry.currency !== 'NGN' && <p className="text-[8px] sm:text-[9px] text-gray-400">{entry.currency} {entry.amount.toLocaleString()}</p>}
                                 </div>
-                                <Button variant="ghost" size="icon" className="rounded-xl text-gray-400 hover:text-blue-600" onClick={() => { setEditEntry({ id: entry._id, source: entry.source, amount: formatMoney(entry.amount), date: entry.date }); setEditOpen(true); }}>
-                                    <Pencil className="w-4 h-4" />
-                                </Button>
-                                <Button variant="ghost" size="icon" className="rounded-xl text-gray-400 hover:text-rose-600" onClick={async () => { try { await deleteIncome({ id: entry._id }); toast.success('Deleted'); } catch { toast.error('Failed'); } }}>
-                                    <Trash2 className="w-4 h-4" />
-                                </Button>
+                                <div className="flex items-center gap-0.5 sm:gap-1">
+                                    <Button variant="ghost" size="icon" className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl text-gray-400 hover:text-blue-600" onClick={() => { setEditEntry({ id: entry._id, source: entry.source, amount: formatMoney(entry.amount), date: entry.date }); setEditOpen(true); }}>
+                                        <Pencil className="w-3 h-3 sm:w-4 sm:h-4" />
+                                    </Button>
+                                    <Button variant="ghost" size="icon" className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl text-gray-400 hover:text-rose-600" onClick={async () => { try { await deleteIncome({ id: entry._id }); toast.success('Deleted'); } catch { toast.error('Failed'); } }}>
+                                        <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                                    </Button>
+                                </div>
                             </div>
                         </CardContent>
                     </Card>

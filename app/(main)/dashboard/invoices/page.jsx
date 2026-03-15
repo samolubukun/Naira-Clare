@@ -147,15 +147,15 @@ function InvoicesPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card className="bg-gradient-to-r from-emerald-50 to-white border-emerald-100 rounded-[2rem]">
-                    <CardContent className="p-5">
+                    <CardContent className="p-4 sm:p-5">
                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Revenue (Paid)</p>
-                        <p className="text-2xl font-black text-emerald-600 mt-1">₦{totalRevenue.toLocaleString()}</p>
+                        <p className="text-2xl sm:text-3xl font-black text-emerald-600 mt-1">₦{totalRevenue.toLocaleString()}</p>
                     </CardContent>
                 </Card>
                 <Card className="bg-gradient-to-r from-amber-50 to-white border-amber-100 rounded-[2rem]">
-                    <CardContent className="p-5">
+                    <CardContent className="p-4 sm:p-5">
                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Pending</p>
-                        <p className="text-2xl font-black text-amber-600 mt-1">₦{totalPending.toLocaleString()}</p>
+                        <p className="text-2xl sm:text-3xl font-black text-amber-600 mt-1">₦{totalPending.toLocaleString()}</p>
                     </CardContent>
                 </Card>
             </div>
@@ -170,24 +170,26 @@ function InvoicesPage() {
                     const sc = statusConfig[inv.status] || statusConfig.sent;
                     return (
                         <Card key={inv._id} className="rounded-2xl border-gray-100 hover:shadow-sm transition-all">
-                            <CardContent className="p-4 flex items-center justify-between">
-                                <div className="flex items-center gap-4">
-                                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${sc.color}`}>
-                                        <sc.icon className="w-5 h-5" />
+                            <CardContent className="p-3 sm:p-4 flex items-center justify-between gap-2">
+                                <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+                                    <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 ${sc.color}`}>
+                                        <sc.icon className="w-4 h-4 sm:w-5 sm:h-5" />
                                     </div>
-                                    <div>
-                                        <p className="font-bold text-[#0f172a] text-sm">{inv.invoiceNumber}</p>
-                                        <p className="text-[10px] text-gray-400 font-medium">{moment(inv.date).format('MMM D, YYYY')} · Due {moment(inv.dueDate).format('MMM D')}</p>
+                                    <div className="min-w-0 flex-1">
+                                        <p className="font-bold text-[#0f172a] text-[11px] sm:text-sm leading-tight break-words">{inv.invoiceNumber}</p>
+                                        <p className="text-[9px] sm:text-[10px] text-gray-400 font-medium leading-tight">{moment(inv.date).format('MMM D, YYYY')} · Due {moment(inv.dueDate).format('MMM D')}</p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-3">
-                                    <p className="font-black text-[#0f172a]">₦{inv.amount.toLocaleString()}</p>
-                                    {inv.status !== 'paid' && (
-                                        <Button size="sm" variant="outline" onClick={() => handleStatusChange(inv._id, 'paid')} className="rounded-xl text-xs font-bold text-emerald-600 border-emerald-100">
-                                            <Check className="w-3 h-3 mr-1" /> Mark Paid
-                                        </Button>
-                                    )}
-                                    <span className={`text-[9px] font-black uppercase px-2 py-1 rounded-lg ${sc.color}`}>{sc.label}</span>
+                                <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-auto">
+                                    <p className="font-black text-[#0f172a] text-[11px] sm:text-base">₦{inv.amount.toLocaleString()}</p>
+                                    <div className="flex items-center gap-1 sm:gap-2">
+                                        {inv.status !== 'paid' && (
+                                            <Button size="sm" variant="outline" onClick={() => handleStatusChange(inv._id, 'paid')} className="h-7 sm:h-8 rounded-xl text-[10px] sm:text-xs font-bold text-emerald-600 border-emerald-100 px-2 sm:px-3">
+                                                <Check className="w-3 h-3 mr-0.5 sm:mr-1" /> <span className="hidden xs:inline">Mark Paid</span><span className="xs:hidden">Paid</span>
+                                            </Button>
+                                        )}
+                                        <span className={`text-[8px] sm:text-[9px] font-black uppercase px-2 py-1 rounded-lg ${sc.color}`}>{sc.label}</span>
+                                    </div>
                                 </div>
                             </CardContent>
                         </Card>

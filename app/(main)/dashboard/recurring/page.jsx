@@ -119,14 +119,14 @@ function RecurringPage() {
 
             {/* Summary */}
             <Card className="bg-gradient-to-r from-teal-50 to-white border-teal-100 rounded-[2rem]">
-                <CardContent className="p-6 flex items-center justify-between">
+                <CardContent className="p-4 sm:p-6 flex items-center justify-between">
                     <div>
                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Monthly Auto-Log Total</p>
-                        <p className="text-3xl font-black text-teal-600">₦{totalMonthly.toLocaleString()}</p>
+                        <p className="text-2xl sm:text-3xl font-black text-teal-600">₦{totalMonthly.toLocaleString()}</p>
                     </div>
                     <div className="text-right">
-                        <p className="text-sm font-bold text-gray-500">{activeEntries.length} active</p>
-                        {pausedEntries.length > 0 && <p className="text-[10px] text-gray-400">{pausedEntries.length} paused</p>}
+                        <p className="text-xs sm:text-sm font-bold text-gray-500">{activeEntries.length} active</p>
+                        {pausedEntries.length > 0 && <p className="text-[9px] sm:text-[10px] text-gray-400">{pausedEntries.length} paused</p>}
                     </div>
                 </CardContent>
             </Card>
@@ -141,24 +141,26 @@ function RecurringPage() {
                     </div>
                 ) : (entries || []).map(entry => (
                     <Card key={entry._id} className={`rounded-2xl border-gray-100 hover:shadow-sm transition-all ${!entry.active ? 'opacity-50' : ''}`}>
-                        <CardContent className="p-4 flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${entry.active ? 'bg-teal-50' : 'bg-gray-100'}`}>
-                                    <RefreshCw className={`w-5 h-5 ${entry.active ? 'text-teal-600' : 'text-gray-400'}`} />
+                        <CardContent className="p-3 sm:p-4 flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+                                <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 ${entry.active ? 'bg-teal-50' : 'bg-gray-100'}`}>
+                                    <RefreshCw className={`w-4 h-4 sm:w-5 sm:h-5 ${entry.active ? 'text-teal-600' : 'text-gray-400'}`} />
                                 </div>
-                                <div>
-                                    <p className="font-bold text-[#0f172a] text-sm">{entry.name}</p>
-                                    <p className="text-[10px] text-gray-400 font-medium">{entry.category} · {entry.frequency} · {entry.type}</p>
+                                <div className="min-w-0 flex-1">
+                                    <p className="font-bold text-[#0f172a] text-[11px] sm:text-sm leading-tight break-words">{entry.name}</p>
+                                    <p className="text-[9px] sm:text-[10px] text-gray-400 font-medium leading-tight">{entry.category} · {entry.frequency} · {entry.type}</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <p className="font-black text-[#0f172a] mr-2">₦{entry.amount.toLocaleString()}</p>
-                                <Button variant="ghost" size="icon" onClick={() => handleToggle(entry._id)} className="rounded-xl text-gray-400 hover:text-amber-600">
-                                    {entry.active ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                                </Button>
-                                <Button variant="ghost" size="icon" onClick={() => handleDelete(entry._id)} className="rounded-xl text-gray-400 hover:text-rose-600">
-                                    <Trash2 className="w-4 h-4" />
-                                </Button>
+                            <div className="flex items-center gap-1 sm:gap-2 shrink-0 ml-auto">
+                                <p className="font-black text-[#0f172a] text-[11px] sm:text-base mr-1 sm:mr-2">₦{entry.amount.toLocaleString()}</p>
+                                <div className="flex items-center gap-0.5 sm:gap-1">
+                                    <Button variant="ghost" size="icon" onClick={() => handleToggle(entry._id)} className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl text-gray-400 hover:text-amber-600">
+                                        {entry.active ? <Pause className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
+                                    </Button>
+                                    <Button variant="ghost" size="icon" onClick={() => handleDelete(entry._id)} className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl text-gray-400 hover:text-rose-600">
+                                        <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                                    </Button>
+                                </div>
                             </div>
                         </CardContent>
                     </Card>
